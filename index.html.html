@@ -1,0 +1,1022 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Freight Fraud Field Guide — A Simple Handbook for BPO Teams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16263B;          /* deep manifest navy: text + structure */
+    --ink-soft:#43566B;     /* secondary text */
+    --paper:#EDF0EC;        /* cool field-manual paper */
+    --surface:#FBFCFA;      /* card surface */
+    --line:#D7DCD4;         /* hairlines */
+    --amber:#F4B400;        /* caution / attention signal */
+    --amber-deep:#C98A00;
+    --danger:#C5392E;       /* STOP red: the scam */
+    --danger-soft:#FBEAE7;
+    --safe:#1C7A52;         /* GO green: the fix */
+    --safe-soft:#E4F1EA;
+    --panel:#16263B;        /* inverted sections */
+
+    --font-display:'Bricolage Grotesque', system-ui, 'Segoe UI', Arial, sans-serif;
+    --font-body:'Source Sans 3', system-ui, 'Segoe UI', Arial, sans-serif;
+    --font-mono:'Space Mono', ui-monospace, Menlo, Consolas, monospace;
+
+    --wrap:920px;
+    --r:16px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:18px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  @media (max-width:560px){ body{font-size:17px} }
+
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:0 22px}
+
+  /* caution-tape divider motif */
+  .tape{
+    height:12px;
+    background:repeating-linear-gradient(45deg,var(--amber) 0 18px,var(--ink) 18px 36px);
+    border-top:1px solid rgba(0,0,0,.15);
+    border-bottom:1px solid rgba(0,0,0,.15);
+  }
+
+  /* ---------- type ---------- */
+  h1,h2,h3,h4{font-family:var(--font-display); line-height:1.08; margin:0; letter-spacing:-.01em}
+  p{margin:0 0 16px}
+  .lead{font-size:1.18em; color:var(--ink-soft)}
+  a{color:var(--ink)}
+  strong{font-weight:700}
+  .mono{font-family:var(--font-mono)}
+
+  .kicker{
+    font-family:var(--font-mono); font-size:.74rem; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--amber-deep);
+    display:inline-block;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:var(--panel); color:#EAF0F4; position:relative; overflow:hidden;
+  }
+  .hero .wrap{padding-top:54px; padding-bottom:48px; position:relative; z-index:2}
+  .hero .filetab{
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--amber); display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:26px;
+  }
+  .hero .filetab b{color:#9fb2c2; font-weight:400}
+  .hero h1{
+    font-size:clamp(2.3rem,6.4vw,4rem); font-weight:800; color:#fff; max-width:14ch;
+  }
+  .hero h1 .hl{color:var(--amber)}
+  .hero .sub{font-size:clamp(1.05rem,2.4vw,1.3rem); color:#bacadb; max-width:48ch; margin-top:18px}
+  .hero-art{margin-top:34px; max-width:620px}
+  .hero-art svg{width:100%; height:auto; display:block}
+  .herometa{
+    display:flex; gap:10px 26px; flex-wrap:wrap; margin-top:30px;
+    font-family:var(--font-mono); font-size:.8rem; color:#9fb2c2;
+  }
+  .herometa b{color:#fff}
+
+  /* ---------- sections ---------- */
+  section{padding:56px 0}
+  .chap-no{
+    font-family:var(--font-mono); font-weight:700; font-size:.78rem; letter-spacing:.16em;
+    color:var(--amber-deep); text-transform:uppercase;
+  }
+  h2.title{font-size:clamp(1.7rem,4.4vw,2.5rem); font-weight:800; margin:8px 0 6px; max-width:20ch}
+  .section-intro{max-width:62ch; color:var(--ink-soft); font-size:1.08em}
+
+  /* plain definition box */
+  .define{
+    background:var(--surface); border:1px solid var(--line); border-left:5px solid var(--amber);
+    border-radius:12px; padding:16px 20px; margin:22px 0; font-size:1.04em;
+  }
+  .define b{font-family:var(--font-display)}
+
+  /* ---------- chain / flow drawings ---------- */
+  .figure{margin:30px 0}
+  .figure svg{width:100%; height:auto; display:block;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:10px}
+  .figcap{font-family:var(--font-mono); font-size:.78rem; color:var(--ink-soft); margin-top:10px; letter-spacing:.02em}
+  .figcap::before{content:"▸ "; color:var(--amber-deep)}
+
+  /* ---------- BIG THREE scheme cards ---------- */
+  .big{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+    overflow:hidden; margin:26px 0; box-shadow:0 1px 0 rgba(22,38,59,.04);
+  }
+  .big-head{
+    display:flex; align-items:flex-start; gap:18px; padding:22px 24px 18px;
+    border-bottom:1px dashed var(--line);
+  }
+  .big-rank{
+    font-family:var(--font-mono); font-weight:700; font-size:.72rem; letter-spacing:.14em;
+    color:#fff; background:var(--danger); padding:5px 9px; border-radius:6px; white-space:nowrap;
+    text-transform:uppercase; margin-top:6px;
+  }
+  .big-head h3{font-size:clamp(1.35rem,3.6vw,1.9rem); font-weight:800}
+  .big-head .aka{font-family:var(--font-mono); font-size:.78rem; color:var(--ink-soft); margin-top:6px}
+  .big-grid{display:grid; grid-template-columns:1.05fr 1fr; gap:0}
+  @media (max-width:680px){ .big-grid{grid-template-columns:1fr} }
+  .big-art{padding:20px 24px; border-right:1px dashed var(--line); display:flex; align-items:center}
+  @media (max-width:680px){ .big-art{border-right:none; border-bottom:1px dashed var(--line)} }
+  .big-art svg{width:100%; height:auto}
+  .big-body{padding:20px 24px}
+  .big-body h4{font-family:var(--font-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px}
+  .steps{list-style:none; padding:0; margin:0 0 16px; counter-reset:s}
+  .steps li{position:relative; padding:6px 0 6px 30px; font-size:.98em}
+  .steps li::before{
+    counter-increment:s; content:counter(s);
+    position:absolute; left:0; top:6px; width:20px; height:20px; border-radius:50%;
+    background:var(--ink); color:#fff; font-family:var(--font-mono); font-size:.72rem; font-weight:700;
+    display:grid; place-items:center;
+  }
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 0}
+  .chip{
+    font-family:var(--font-mono); font-size:.72rem; padding:5px 10px; border-radius:999px;
+    border:1px solid var(--line); background:#fff; color:var(--ink-soft);
+  }
+  .chip.hit{border-color:#e7c4c0; background:var(--danger-soft); color:#8f2a22}
+  .chip.trend{border-color:#e7d39a; background:#fbf3d8; color:#8a6400}
+  .fix{
+    background:var(--safe-soft); border-top:1px solid #cbe6d7; padding:16px 24px;
+    display:flex; gap:14px; align-items:flex-start;
+  }
+  .fix .tag{
+    font-family:var(--font-mono); font-weight:700; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+    color:#fff; background:var(--safe); padding:5px 9px; border-radius:6px; white-space:nowrap; margin-top:2px;
+  }
+  .fix p{margin:0; font-size:.98em; color:#16432f}
+  .fix b{color:var(--safe)}
+
+  /* ---------- case file callout ---------- */
+  .case{
+    border:1px solid var(--ink); border-radius:14px; overflow:hidden; margin:24px 0;
+    background:#fff;
+  }
+  .case-top{
+    background:var(--ink); color:#fff; padding:10px 18px; display:flex; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; align-items:center;
+    font-family:var(--font-mono); font-size:.74rem; letter-spacing:.08em;
+  }
+  .case-top .stamp{color:var(--amber); border:1px solid var(--amber); padding:2px 8px; border-radius:5px; text-transform:uppercase}
+  .case-body{padding:18px 20px}
+  .case-body p{margin:0 0 10px; font-size:.98em}
+  .case-num{font-family:var(--font-mono); font-weight:700; color:var(--danger); font-size:1.05em}
+
+  /* ---------- the deck (smaller scam cards) ---------- */
+  .deck-group{margin:26px 0 8px}
+  .deck-group > h3{
+    font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:10px; margin-bottom:4px;
+  }
+  .deck-group > p{color:var(--ink-soft); font-size:.96em; margin:0 0 16px; max-width:60ch}
+  .deck{display:grid; grid-template-columns:repeat(2,1fr); gap:14px}
+  @media (max-width:620px){ .deck{grid-template-columns:1fr} }
+  .scam{
+    background:var(--surface); border:1px solid var(--line); border-radius:13px; padding:16px;
+    display:flex; flex-direction:column; gap:10px; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .scam:hover{transform:translateY(-2px); box-shadow:0 6px 18px rgba(22,38,59,.08)}
+  .scam .ic{width:46px; height:46px; flex:none}
+  .scam h4{font-size:1.06rem; font-weight:700}
+  .scam .what{font-size:.93em; color:var(--ink-soft); margin:0}
+  .scam .tell, .scam .stop{font-size:.9em; margin:0; padding-left:22px; position:relative}
+  .scam .tell::before{content:"⚑"; position:absolute; left:0; color:var(--danger)}
+  .scam .stop::before{content:"✓"; position:absolute; left:0; color:var(--safe); font-weight:700}
+  .scam .stop b{color:var(--safe)}
+
+  /* ---------- weak-seam list ---------- */
+  .seams{list-style:none; padding:0; margin:24px 0; display:grid; gap:12px}
+  .seams li{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 16px;
+    display:flex; gap:14px; align-items:flex-start;
+  }
+  .seams .pin{
+    font-family:var(--font-mono); font-weight:700; font-size:.74rem; color:#fff; background:var(--danger);
+    width:30px; height:30px; border-radius:50%; display:grid; place-items:center; flex:none; margin-top:2px;
+  }
+  .seams h4{font-size:1rem; font-weight:700; margin-bottom:2px}
+  .seams p{margin:0; font-size:.94em; color:var(--ink-soft)}
+
+  /* ---------- stats ---------- */
+  .stats-panel{background:var(--panel); color:#EAF0F4}
+  .stats-panel .kicker{color:var(--amber)}
+  .stats-panel h2.title{color:#fff}
+  .stats-panel .section-intro{color:#b6c6d6}
+  .statgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:28px 0 8px}
+  @media (max-width:680px){ .statgrid{grid-template-columns:1fr 1fr} }
+  @media (max-width:430px){ .statgrid{grid-template-columns:1fr} }
+  .stat{
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:18px;
+  }
+  .stat .n{font-family:var(--font-mono); font-weight:700; font-size:clamp(1.7rem,5vw,2.3rem); color:var(--amber); line-height:1}
+  .stat .l{font-size:.92em; color:#cdd9e4; margin-top:8px}
+  .stat .src{font-family:var(--font-mono); font-size:.68rem; color:#7f93a6; margin-top:8px; letter-spacing:.03em}
+  .barwrap{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:20px; margin-top:16px}
+  .barwrap svg{width:100%; height:auto; display:block}
+  .datagap{
+    background:rgba(244,180,0,.1); border:1px solid rgba(244,180,0,.4); border-radius:12px;
+    padding:16px 18px; margin-top:20px; color:#f2e2bd; font-size:.96em;
+  }
+  .datagap b{color:var(--amber)}
+
+  /* ---------- checklist ---------- */
+  .routine{
+    display:flex; gap:14px; flex-wrap:wrap; margin:24px 0 30px;
+  }
+  .rcard{
+    flex:1 1 220px; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px;
+    border-top:5px solid var(--amber);
+  }
+  .rcard .word{font-family:var(--font-display); font-weight:800; font-size:1.5rem; letter-spacing:.02em}
+  .rcard:nth-child(1){border-top-color:var(--danger)}
+  .rcard:nth-child(2){border-top-color:var(--amber)}
+  .rcard:nth-child(3){border-top-color:var(--safe)}
+  .rcard p{margin:6px 0 0; font-size:.95em; color:var(--ink-soft)}
+
+  .check{list-style:none; padding:0; margin:18px 0; display:grid; gap:10px}
+  .check li{
+    background:var(--surface); border:1px solid var(--line); border-radius:11px; padding:13px 15px 13px 46px;
+    position:relative; font-size:.98em;
+  }
+  .check li::before{
+    content:""; position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:20px; height:20px; border:2px solid var(--safe); border-radius:5px; background:#fff;
+  }
+  .check li::after{
+    content:"✓"; position:absolute; left:18px; top:50%; transform:translateY(-58%);
+    color:var(--safe); font-weight:700; font-size:.9rem;
+  }
+  .check li b{font-weight:700}
+
+  .redflags{background:var(--danger-soft); border:1px solid #e7c4c0; border-radius:14px; padding:20px; margin:24px 0}
+  .redflags h3{font-size:1.15rem; font-weight:800; color:#8f2a22; display:flex; align-items:center; gap:10px}
+  .redflags ul{margin:12px 0 0; padding-left:20px; columns:2; column-gap:26px}
+  @media (max-width:560px){ .redflags ul{columns:1} }
+  .redflags li{margin-bottom:7px; font-size:.95em; color:#7a261f; break-inside:avoid}
+
+  /* ---------- closing ---------- */
+  .close{background:var(--panel); color:#EAF0F4; text-align:center}
+  .close .wrap{padding:60px 22px}
+  .close h2{font-size:clamp(1.6rem,4.5vw,2.4rem); font-weight:800; color:#fff; max-width:24ch; margin:0 auto}
+  .close p{color:#b6c6d6; max-width:52ch; margin:18px auto 0}
+  .close .big-line{color:var(--amber); font-family:var(--font-display); font-weight:800; font-size:1.2em}
+
+  .sources{font-size:.9em; color:var(--ink-soft); padding:40px 0 70px}
+  .sources h3{font-family:var(--font-mono); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); margin-bottom:14px}
+  .sources ul{padding-left:18px; margin:0}
+  .sources li{margin-bottom:8px}
+  .disclaimer{margin-top:18px; font-size:.86em; font-style:italic}
+
+  /* reduce motion */
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
+  }
+
+  /* print → clean PDF */
+  @media print{
+    body{background:#fff; font-size:11.5pt}
+    .hero,.stats-panel,.close{background:#fff !important; color:#000 !important}
+    .hero h1,.hero .sub,.stats-panel h2.title,.stats-panel .section-intro,.close h2,.close p{color:#000 !important}
+    .stat{border-color:#bbb} .stat .n{color:#000} .stat .l,.stat .src{color:#333}
+    .tape{display:none}
+    .big,.case,.scam,.rcard,.check li,.seams li,.figure svg{break-inside:avoid; box-shadow:none}
+    section{padding:18px 0}
+  }
+  :focus-visible{outline:3px solid var(--amber); outline-offset:2px; border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="tape" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="filetab">
+      <span>Field Guide&nbsp;/&nbsp;v1.0</span>
+      <b>For freight &amp; logistics BPO teams</b>
+      <b>Read time ≈ 20 min</b>
+    </div>
+    <h1>How to Spot a <span class="hl">Freight Scam</span> &amp; Stop It.</h1>
+    <p class="sub">A simple handbook, in plain English, for the people who book loads, vet carriers, handle papers and send payments. Real cases. Real numbers. Clear steps.</p>
+
+    <div class="hero-art" aria-hidden="true">
+      <!-- Hero: a truck, and a masked "pretender" reaching for the cargo -->
+      <svg viewBox="0 0 620 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- road -->
+        <rect x="0" y="238" width="620" height="62" fill="#0f1d2e"/>
+        <g stroke="#F4B400" stroke-width="5" stroke-dasharray="26 22" stroke-linecap="round">
+          <line x1="10" y1="270" x2="610" y2="270"/>
+        </g>
+        <!-- truck cab -->
+        <g>
+          <rect x="60" y="150" width="250" height="78" rx="8" fill="#EAF0F4"/>
+          <rect x="60" y="150" width="250" height="78" rx="8" fill="none" stroke="#0f1d2e" stroke-width="3"/>
+          <text x="80" y="198" font-family="'Space Mono',monospace" font-size="20" fill="#16263B" font-weight="700">CARGO</text>
+          <!-- engine front -->
+          <path d="M310 168 h54 a10 10 0 0 1 10 10 v50 h-64 z" fill="#F4B400" stroke="#0f1d2e" stroke-width="3"/>
+          <rect x="332" y="186" width="30" height="22" rx="3" fill="#bff" stroke="#0f1d2e" stroke-width="3"/>
+          <!-- wheels -->
+          <circle cx="120" cy="230" r="20" fill="#16263B" stroke="#0f1d2e" stroke-width="3"/>
+          <circle cx="120" cy="230" r="7" fill="#EAF0F4"/>
+          <circle cx="250" cy="230" r="20" fill="#16263B" stroke="#0f1d2e" stroke-width="3"/>
+          <circle cx="250" cy="230" r="7" fill="#EAF0F4"/>
+          <circle cx="340" cy="230" r="20" fill="#16263B" stroke="#0f1d2e" stroke-width="3"/>
+          <circle cx="340" cy="230" r="7" fill="#EAF0F4"/>
+        </g>
+        <!-- the pretender: hand + mask reaching from behind, holding a box -->
+        <g>
+          <!-- box being slipped out -->
+          <g transform="rotate(-8 470 150)">
+            <rect x="430" y="120" width="80" height="64" rx="5" fill="#C98A00" stroke="#0f1d2e" stroke-width="3"/>
+            <line x1="430" y1="152" x2="510" y2="152" stroke="#0f1d2e" stroke-width="3"/>
+            <line x1="470" y1="120" x2="470" y2="184" stroke="#0f1d2e" stroke-width="3"/>
+          </g>
+          <!-- masked face -->
+          <circle cx="555" cy="92" r="40" fill="#16263B" stroke="#0f1d2e" stroke-width="3"/>
+          <rect x="525" y="78" width="60" height="20" rx="10" fill="#0f1d2e"/>
+          <circle cx="543" cy="88" r="4.5" fill="#F4B400"/>
+          <circle cx="567" cy="88" r="4.5" fill="#F4B400"/>
+          <path d="M540 112 q15 10 30 0" fill="none" stroke="#9fb2c2" stroke-width="3" stroke-linecap="round"/>
+          <!-- sneaky arm -->
+          <path d="M520 130 q-30 -6 -45 6" fill="none" stroke="#16263B" stroke-width="14" stroke-linecap="round"/>
+        </g>
+        <!-- question marks -->
+        <text x="470" y="60" font-family="'Bricolage Grotesque',sans-serif" font-size="34" fill="#F4B400" font-weight="800">?</text>
+        <text x="505" y="40" font-family="'Bricolage Grotesque',sans-serif" font-size="22" fill="#F4B400" font-weight="800">?</text>
+      </svg>
+    </div>
+
+    <div class="herometa">
+      <span><b>$725M</b> stolen in 2025</span>
+      <span><b>+60%</b> losses vs 2024</span>
+      <span><b>$2.8B</b> lost to email scams</span>
+      <span class="mono">Sources: Verisk CargoNet · FBI IC3</span>
+    </div>
+  </div>
+  <div class="tape" aria-hidden="true"></div>
+</header>
+
+<!-- ============ CH 0 — READ FIRST ============ -->
+<section>
+  <div class="wrap">
+    <span class="chap-no">Start here · 1 minute</span>
+    <h2 class="title">What this book is</h2>
+    <p class="section-intro">This handbook teaches one skill: how to tell a <strong>real</strong> partner from a <strong>pretender</strong>. That is what almost every freight scam comes down to.</p>
+
+    <div class="define">
+      <b>A scam, in one line:</b> A stranger pretends to be someone you trust — a trucker, a broker, your own boss — so you hand over <strong>money</strong> or <strong>cargo</strong> before you notice. Your job is to catch the pretender <em>before</em> you click "send."
+    </div>
+
+    <p>We will go in order. First the <strong>Big Three</strong> scams (the ones that steal the most). Then <strong>every other type</strong>, explained in one breath each. Then a map of <strong>where</strong> the chain breaks, the <strong>numbers</strong> that prove this is real, and finally your <strong>daily shield</strong> — a checklist you can keep on your desk.</p>
+    <p>Every scam card ends with a green <strong>"Stop it"</strong> strip. If you only remember the green parts, you will already be ahead of most teams.</p>
+  </div>
+</section>
+
+<div class="tape" aria-hidden="true"></div>
+
+<!-- ============ CH 1 — WHY THE BPO DESK ============ -->
+<section>
+  <div class="wrap">
+    <span class="chap-no">Chapter 1</span>
+    <h2 class="title">Why scammers love the BPO desk</h2>
+    <p class="section-intro">A freight BPO team is the back office for a shipping company — often working from another country. You are the hands that keep loads moving.</p>
+
+    <div class="define">
+      <b>What "BPO" means here:</b> Business Process Outsourcing. In freight, that's your team <strong>finding trucks</strong>, <strong>booking loads</strong>, <strong>tracking shipments</strong>, <strong>handling paperwork</strong>, and <strong>paying carriers</strong> on behalf of a broker. You don't drive the truck — you make the deal happen.
+    </div>
+
+    <p>Look at the journey of one load. The factory (shipper) wants goods moved. A broker finds a truck. A carrier sends a driver. The store (receiver) gets the goods. Then money flows back down the line. <strong>You help run the broker's part</strong> — the middle.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 880 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The freight chain: shipper to broker to carrier to receiver, with money flowing back.">
+        <!-- nodes -->
+        <g font-family="'Source Sans 3',sans-serif">
+          <!-- shipper -->
+          <g>
+            <rect x="20" y="70" width="150" height="92" rx="12" fill="#FBFCFA" stroke="#16263B" stroke-width="2.5"/>
+            <rect x="60" y="90" width="70" height="50" fill="#EDF0EC" stroke="#16263B" stroke-width="2.5"/>
+            <rect x="74" y="78" width="16" height="14" fill="#16263B"/>
+            <rect x="100" y="78" width="16" height="14" fill="#16263B"/>
+            <text x="95" y="182" text-anchor="middle" font-size="15" font-weight="700" fill="#16263B">SHIPPER</text>
+            <text x="95" y="200" text-anchor="middle" font-size="11.5" fill="#43566B">the factory</text>
+          </g>
+          <!-- broker (you) -->
+          <g>
+            <rect x="245" y="64" width="160" height="104" rx="12" fill="#16263B" stroke="#16263B" stroke-width="2.5"/>
+            <rect x="285" y="86" width="80" height="46" rx="5" fill="#EAF0F4"/>
+            <rect x="296" y="96" width="58" height="6" rx="3" fill="#16263B"/>
+            <rect x="296" y="108" width="44" height="6" rx="3" fill="#F4B400"/>
+            <text x="325" y="150" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">BROKER</text>
+            <text x="325" y="166" text-anchor="middle" font-size="11" fill="#F4B400" font-family="'Space Mono',monospace">← YOU ARE HERE</text>
+          </g>
+          <!-- carrier -->
+          <g>
+            <rect x="480" y="70" width="150" height="92" rx="12" fill="#FBFCFA" stroke="#16263B" stroke-width="2.5"/>
+            <rect x="500" y="100" width="80" height="34" rx="4" fill="#F4B400" stroke="#16263B" stroke-width="2.5"/>
+            <rect x="580" y="108" width="30" height="26" rx="3" fill="#EDF0EC" stroke="#16263B" stroke-width="2.5"/>
+            <circle cx="518" cy="138" r="9" fill="#16263B"/>
+            <circle cx="595" cy="138" r="9" fill="#16263B"/>
+            <text x="555" y="182" text-anchor="middle" font-size="15" font-weight="700" fill="#16263B">CARRIER</text>
+            <text x="555" y="200" text-anchor="middle" font-size="11.5" fill="#43566B">the trucker</text>
+          </g>
+          <!-- receiver -->
+          <g>
+            <rect x="705" y="70" width="150" height="92" rx="12" fill="#FBFCFA" stroke="#16263B" stroke-width="2.5"/>
+            <path d="M725 100 h110 v40 h-110 z" fill="#EDF0EC" stroke="#16263B" stroke-width="2.5"/>
+            <path d="M722 100 l58 -22 l58 22" fill="none" stroke="#16263B" stroke-width="2.5"/>
+            <text x="780" y="182" text-anchor="middle" font-size="15" font-weight="700" fill="#16263B">RECEIVER</text>
+            <text x="780" y="200" text-anchor="middle" font-size="11.5" fill="#43566B">the store</text>
+          </g>
+          <!-- goods arrows (top) -->
+          <g stroke="#16263B" stroke-width="3" fill="#16263B">
+            <line x1="172" y1="104" x2="240" y2="104" marker-end="url(#ar)"/>
+            <line x1="407" y1="104" x2="476" y2="104" marker-end="url(#ar)"/>
+            <line x1="632" y1="104" x2="701" y2="104" marker-end="url(#ar)"/>
+          </g>
+          <text x="436" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#16263B" font-family="'Space Mono',monospace">GOODS MOVE →</text>
+          <!-- money arrow (bottom, green, reverse) -->
+          <g stroke="#1C7A52" stroke-width="3" fill="#1C7A52">
+            <line x1="701" y1="230" x2="200" y2="230" marker-end="url(#arg)"/>
+          </g>
+          <text x="450" y="252" text-anchor="middle" font-size="12" font-weight="700" fill="#1C7A52" font-family="'Space Mono',monospace">← MONEY FLOWS BACK</text>
+        </g>
+        <defs>
+          <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#16263B"/></marker>
+          <marker id="arg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#1C7A52"/></marker>
+        </defs>
+      </svg>
+      <p class="figcap">You sit in the middle, holding three things scammers want: the <b>money</b>, the <b>logins</b>, and the power to say <b>"yes, release the load."</b></p>
+    </div>
+
+    <p>That's the whole reason you are a target. The driver only has one truck. The shipper only has its own goods. But <strong>you</strong> touch many loads, many payments, and the company's email and systems — every single day. Break one tired, rushed agent for ten minutes, and a scammer can redirect a whole truckload.</p>
+  </div>
+</section>
+
+<div class="tape" aria-hidden="true"></div>
+
+<!-- ============ CH 2 — BIG THREE ============ -->
+<section>
+  <div class="wrap">
+    <span class="chap-no">Chapter 2 · The Big Three</span>
+    <h2 class="title">The three scams that steal the most</h2>
+    <p class="section-intro">Learn these three first. They cause most of the loss, and the other scams are usually just pieces of these.</p>
+
+    <!-- BIG 1: DOUBLE BROKERING -->
+    <article class="big">
+      <div class="big-head">
+        <span class="big-rank">No. 1</span>
+        <div>
+          <h3>Double Brokering</h3>
+          <div class="aka">a.k.a. "secretly passing the load to a stranger"</div>
+        </div>
+      </div>
+      <div class="big-grid">
+        <div class="big-art" aria-hidden="true">
+          <!-- flow: you -> "carrier"(mask) -> real trucker ; money stuck at crook, trucker sad -->
+          <svg viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg">
+            <!-- you -->
+            <rect x="10" y="30" width="86" height="50" rx="8" fill="#16263B"/>
+            <text x="53" y="60" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="'Source Sans 3'">YOU</text>
+            <!-- crook -->
+            <circle cx="180" cy="55" r="34" fill="#C5392E"/>
+            <rect x="153" y="44" width="54" height="16" rx="8" fill="#16263B"/>
+            <circle cx="168" cy="52" r="3.5" fill="#F4B400"/><circle cx="192" cy="52" r="3.5" fill="#F4B400"/>
+            <text x="180" y="102" text-anchor="middle" fill="#C5392E" font-size="11" font-weight="700" font-family="'Space Mono'">"CARRIER"</text>
+            <!-- real trucker -->
+            <rect x="265" y="30" width="86" height="50" rx="8" fill="#F4B400"/>
+            <circle cx="280" cy="86" r="8" fill="#16263B"/><circle cx="336" cy="86" r="8" fill="#16263B"/>
+            <text x="308" y="60" text-anchor="middle" fill="#16263B" font-size="11" font-weight="700" font-family="'Source Sans 3'">REAL TRUCK</text>
+            <!-- arrows -->
+            <line x1="98" y1="55" x2="142" y2="55" stroke="#16263B" stroke-width="3" marker-end="url(#a1)"/>
+            <line x1="218" y1="55" x2="262" y2="55" stroke="#16263B" stroke-width="3" stroke-dasharray="5 4" marker-end="url(#a1)"/>
+            <text x="240" y="40" text-anchor="middle" font-size="9.5" fill="#43566B" font-family="'Space Mono'">in secret</text>
+            <!-- money -->
+            <text x="180" y="150" text-anchor="middle" font-size="26" font-weight="800" fill="#1C7A52" font-family="'Bricolage Grotesque'">$</text>
+            <line x1="98" y1="135" x2="158" y2="142" stroke="#1C7A52" stroke-width="3" marker-end="url(#a2)"/>
+            <text x="120" y="128" text-anchor="middle" font-size="9.5" fill="#1C7A52" font-family="'Space Mono'">you pay</text>
+            <!-- crook keeps money -->
+            <path d="M205 145 q40 0 40 -40" fill="none" stroke="#C5392E" stroke-width="3" marker-end="url(#a3)"/>
+            <text x="248" y="135" font-size="9.5" fill="#C5392E" font-family="'Space Mono'">kept</text>
+            <!-- trucker gets nothing -->
+            <text x="308" y="150" text-anchor="middle" font-size="22" fill="#C5392E" font-family="'Bricolage Grotesque'" font-weight="800">$0</text>
+            <path d="M300 165 q8 8 16 0" fill="none" stroke="#C5392E" stroke-width="2.5" stroke-linecap="round"/>
+            <text x="308" y="200" text-anchor="middle" font-size="10" fill="#C5392E" font-family="'Space Mono'">unpaid &amp; angry</text>
+            <defs>
+              <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#16263B"/></marker>
+              <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#1C7A52"/></marker>
+              <marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#C5392E"/></marker>
+            </defs>
+          </svg>
+        </div>
+        <div class="big-body">
+          <h4>How it works</h4>
+          <ol class="steps">
+            <li>A "carrier" books your load and promises to haul it.</li>
+            <li>Instead of driving it, they <strong>secretly hand it to a different, real trucker</strong> at a lower price.</li>
+            <li>You pay the booked "carrier." They keep the money and <strong>vanish</strong>.</li>
+            <li>The real trucker delivered the goods but is <strong>never paid</strong> — and now wants <em>your</em> company to pay again.</li>
+          </ol>
+          <div class="chips">
+            <span class="chip hit">Hits: real truckers, your company, shippers</span>
+            <span class="chip trend">Trend: ↑ ~400% more complaints</span>
+          </div>
+        </div>
+      </div>
+      <div class="fix">
+        <span class="tag">Stop it</span>
+        <p><b>Forbid re-brokering in writing</b> and confirm the truck that <em>actually</em> shows up matches who you booked. Get the driver's name, truck and trailer number, and a pickup photo. If the carrier "subcontracts" or the delivering driver doesn't match the paperwork — <b>freeze the payment and verify</b> before anyone gets paid.</p>
+      </div>
+    </article>
+
+    <div class="case">
+      <div class="case-top"><span>CASE FILE · double brokering + identity theft</span><span class="stamp">Convicted</span></div>
+      <div class="case-body">
+        <p>A man running the scheme from Tijuana, Mexico, stole the identity of a real California trucking company, agreed to haul loads under that stolen name, then re-brokered the same loads to other truckers. He collected the delivery payments and never paid the truckers who actually moved the freight. He was arrested abroad, extradited to the United States, pleaded guilty, and agreed to pay restitution.</p>
+        <p class="case-num">Restitution owed to victims: at least $239,904. <span class="mono" style="color:#43566B;font-weight:400">— U.S. DOJ (via Overdrive)</span></p>
+      </div>
+    </div>
+
+    <!-- BIG 2: IDENTITY THEFT / IMPERSONATION -->
+    <article class="big">
+      <div class="big-head">
+        <span class="big-rank">No. 2</span>
+        <div>
+          <h3>Identity Theft &amp; Impersonation</h3>
+          <div class="aka">a.k.a. "wearing a real company as a mask" (this is most "strategic theft")</div>
+        </div>
+      </div>
+      <div class="big-grid">
+        <div class="big-art" aria-hidden="true">
+          <svg viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg">
+            <!-- real company badge -->
+            <rect x="20" y="40" width="120" height="150" rx="10" fill="#FBFCFA" stroke="#16263B" stroke-width="2.5"/>
+            <circle cx="80" cy="78" r="22" fill="#EDF0EC" stroke="#16263B" stroke-width="2.5"/>
+            <text x="80" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#16263B" font-family="'Source Sans 3'">GOOD CO.</text>
+            <text x="80" y="138" text-anchor="middle" font-size="9.5" fill="#43566B" font-family="'Space Mono'">MC# 123456</text>
+            <text x="80" y="156" text-anchor="middle" font-size="9.5" fill="#1C7A52" font-family="'Space Mono'">★ clean record</text>
+            <!-- crook holding mask of it -->
+            <circle cx="250" cy="80" r="40" fill="#C5392E"/>
+            <!-- mask in hand -->
+            <ellipse cx="300" cy="120" rx="34" ry="42" fill="#EAF0F4" stroke="#16263B" stroke-width="2.5"/>
+            <circle cx="290" cy="112" r="4" fill="#16263B"/><circle cx="310" cy="112" r="4" fill="#16263B"/>
+            <text x="300" y="150" text-anchor="middle" font-size="8.5" fill="#16263B" font-family="'Space Mono'">GOOD CO.</text>
+            <line x1="270" y1="110" x2="285" y2="118" stroke="#16263B" stroke-width="6" stroke-linecap="round"/>
+            <text x="250" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="'Source Sans 3'">CROOK</text>
+            <text x="190" y="205" text-anchor="middle" font-size="10.5" fill="#C5392E" font-family="'Space Mono'">"I am Good Co." → grabs the load → gone</text>
+          </svg>
+        </div>
+        <div class="big-body">
+          <h4>How it works</h4>
+          <ol class="steps">
+            <li>A crook copies a <strong>real, trusted carrier's</strong> name, MC/DOT number, and even its email look.</li>
+            <li>Wearing that "mask," they book a high-value load from you. You see a clean safety record and say yes.</li>
+            <li>The cargo is handed to a driver who <strong>drives it somewhere else and steals it</strong> for resale.</li>
+            <li>The real company never knew. You only find out when loads go missing under their name.</li>
+          </ol>
+          <div class="chips">
+            <span class="chip hit">Hits: shippers, brokers, the real carrier's name</span>
+            <span class="chip trend">Trend: ↑ from under 5% to roughly a third of cargo theft</span>
+          </div>
+        </div>
+      </div>
+      <div class="fix">
+        <span class="tag">Stop it</span>
+        <p><b>Don't trust a name or number alone.</b> Call the carrier back on a phone number <em>you</em> looked up from official records — never the number in the email. Watch for fresh changes to a carrier's contact info or insurance, brand-new authority, and addresses that are just a mailbox. A familiar logo is not proof; <b>verify the human on the other end.</b></p>
+      </div>
+    </article>
+
+    <div class="case">
+      <div class="case-top"><span>CASE FILE · multi-state impersonation ring</span><span class="stamp">Indicted</span></div>
+      <div class="case-body">
+        <p>Investigators and a cargo-theft analytics firm helped a New York prosecutor charge an organized ring that impersonated legitimate carriers across several states to misdirect and steal shipments. These are not lone amateurs — they are <strong>organized groups</strong> running impersonation like a business, which is exactly why the average theft is now worth so much.</p>
+        <p class="case-num">Average value of one theft in 2025: $273,990 <span class="mono" style="color:#43566B;font-weight:400">— Verisk CargoNet</span></p>
+      </div>
+    </div>
+
+    <!-- BIG 3: BEC -->
+    <article class="big">
+      <div class="big-head">
+        <span class="big-rank">No. 3</span>
+        <div>
+          <h3>Business Email Compromise (BEC) &amp; Phishing</h3>
+          <div class="aka">a.k.a. "the fake — or hacked — email that redirects your money"</div>
+        </div>
+      </div>
+      <div class="big-grid">
+        <div class="big-art" aria-hidden="true">
+          <svg viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg">
+            <!-- email with hook -->
+            <rect x="40" y="50" width="150" height="100" rx="8" fill="#FBFCFA" stroke="#16263B" stroke-width="2.5"/>
+            <path d="M40 58 l75 55 l75 -55" fill="none" stroke="#16263B" stroke-width="2.5"/>
+            <text x="115" y="138" text-anchor="middle" font-size="9.5" fill="#43566B" font-family="'Space Mono'">"new bank — pay here"</text>
+            <!-- hook -->
+            <path d="M210 40 v40 a20 20 0 1 1 -20 20" fill="none" stroke="#C5392E" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="210" cy="38" r="4" fill="#C5392E"/>
+            <!-- lookalike domain callout -->
+            <rect x="35" y="170" width="290" height="44" rx="8" fill="#FBEAE7" stroke="#C5392E" stroke-width="2"/>
+            <text x="50" y="190" font-size="11" fill="#16263B" font-family="'Space Mono'">good-co<tspan fill="#1C7A52" font-weight="700">.com</tspan>  =  real</text>
+            <text x="50" y="206" font-size="11" fill="#16263B" font-family="'Space Mono'">good-co<tspan fill="#C5392E" font-weight="700">.co</tspan>   =  the trap (one letter off!)</text>
+            <!-- crook bank -->
+            <rect x="250" y="55" width="80" height="58" rx="6" fill="#C5392E"/>
+            <text x="290" y="80" text-anchor="middle" font-size="11" fill="#fff" font-weight="700" font-family="'Source Sans 3'">CROOK</text>
+            <text x="290" y="96" text-anchor="middle" font-size="11" fill="#fff" font-family="'Source Sans 3'">BANK</text>
+            <line x1="192" y1="100" x2="246" y2="90" stroke="#C5392E" stroke-width="3" marker-end="url(#a4)"/>
+            <defs><marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#C5392E"/></marker></defs>
+          </svg>
+        </div>
+        <div class="big-body">
+          <h4>How it works</h4>
+          <ol class="steps">
+            <li>You get an email that looks normal — from a "carrier," "vendor," or even your "boss."</li>
+            <li>It says: <strong>banking details changed, please pay the new account</strong> — and it sounds urgent.</li>
+            <li>The address is a tiny bit wrong (<span class="mono">.co</span> not <span class="mono">.com</span>), <em>or</em> a real account was hacked so the email is genuinely from them.</li>
+            <li>You pay. The money lands in the crook's account and is moved away within minutes.</li>
+          </ol>
+          <div class="chips">
+            <span class="chip hit">Hits: your payments team, anyone who wires money</span>
+            <span class="chip trend">Trend: ↑ harder to spot — real accounts get hacked now</span>
+          </div>
+        </div>
+      </div>
+      <div class="fix">
+        <span class="tag">Stop it</span>
+        <p><b>Never change bank details from an email alone.</b> Call the known contact on a saved number and confirm out loud. Read the sender's full address letter by letter. Turn on two-step login (MFA) for email. Treat any "urgent + secret + new account" message as a red flag until a second person confirms. <b>When money is involved, slow down on purpose.</b></p>
+      </div>
+    </article>
+
+    <div class="case">
+      <div class="case-top"><span>CASE FILE · the cost of email scams</span><span class="stamp">By the numbers</span></div>
+      <div class="case-body">
+        <p>The FBI's Internet Crime Complaint Center logged 21,442 business-email-compromise complaints in a single year, second only to investment fraud for total dollars lost. Logistics and shipping are squarely in the crosshairs because the industry moves money fast and trusts familiar email threads about invoices and loads.</p>
+        <p class="case-num">BEC losses in 2024: about $2.8 billion (≈$8.5B across 2022–2024) <span class="mono" style="color:#43566B;font-weight:400">— FBI IC3</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape" aria-hidden="true"></div>
+
+<!-- ============ CH 3 — THE FULL DECK ============ -->
+<section>
+  <div class="wrap">
+    <span class="chap-no">Chapter 3 · The full deck</span>
+    <h2 class="title">Every other scam, one breath each</h2>
+    <p class="section-intro">Most of these are cousins of the Big Three. For each one: what it is, the tell (the warning sign), and how to stop it.</p>
+
+    <!-- GROUP A: MASK SCAMS -->
+    <div class="deck-group">
+      <h3>🎭 Mask scams — fake identities</h3>
+      <p>Crooks pretend to be a company that exists, or invent one that looks real.</p>
+      <div class="deck">
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><ellipse cx="24" cy="22" rx="13" ry="15" fill="#fff" stroke="#16263B" stroke-width="2"/><circle cx="19" cy="20" r="2.5" fill="#16263B"/><circle cx="29" cy="20" r="2.5" fill="#16263B"/><path d="M18 30 q6 4 12 0" fill="none" stroke="#C5392E" stroke-width="2" stroke-linecap="round"/></svg>
+          <h4>Phantom &amp; "chameleon" carriers</h4>
+          <p class="what">A fake trucking company that doesn't really operate — or a banned one that reopens under a brand-new name to hide its bad past.</p>
+          <p class="tell">Brand-new authority, no real history, address is a mailbox, story keeps changing.</p>
+          <p class="stop"><b>Stop:</b> check age of authority + a real, verifiable office; be extra careful with "new" carriers.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="14" y="14" width="20" height="20" rx="3" fill="#F4B400" stroke="#16263B" stroke-width="2"/><path d="M20 24 l3 3 l6 -7" fill="none" stroke="#16263B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 30 l8 8" stroke="#C5392E" stroke-width="3" stroke-linecap="round"/></svg>
+          <h4>Fictitious (fake) pickup</h4>
+          <p class="what">A driver shows up with the right-looking paperwork, takes the real load, and is never seen again.</p>
+          <p class="tell">Driver/truck don't match the booking; rushed or odd pickup; can't verify the dispatcher.</p>
+          <p class="stop"><b>Stop:</b> verify the driver + truck against your booking and photograph everything at pickup.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="16" y="12" width="20" height="26" rx="3" fill="#fff" stroke="#16263B" stroke-width="2"/><line x1="20" y1="19" x2="32" y2="19" stroke="#16263B" stroke-width="2"/><line x1="20" y1="24" x2="32" y2="24" stroke="#16263B" stroke-width="2"/><line x1="20" y1="29" x2="27" y2="29" stroke="#16263B" stroke-width="2"/><text x="31" y="36" font-size="13" fill="#C5392E" font-weight="700" font-family="sans-serif">✕</text></svg>
+          <h4>Forged paperwork</h4>
+          <p class="what">Fake or edited Bills of Lading, delivery receipts (PODs), or rate confirmations made to look official.</p>
+          <p class="tell">Logos slightly off, copy-pasted signatures, numbers that don't match your system.</p>
+          <p class="stop"><b>Stop:</b> match every document to your own records; confirm details with the known source, not the document.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="13" y="16" width="22" height="16" rx="2" fill="#fff" stroke="#16263B" stroke-width="2"/><circle cx="19" cy="24" r="3" fill="#16263B"/><line x1="25" y1="21" x2="31" y2="21" stroke="#16263B" stroke-width="2"/><line x1="25" y1="26" x2="31" y2="26" stroke="#16263B" stroke-width="2"/><path d="M30 14 l6 -4" stroke="#C5392E" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <h4>Stolen broker identity</h4>
+          <p class="what">Crooks pretend to be a well-known <em>broker</em> (not just a carrier) to book trucks and run double-brokering at scale.</p>
+          <p class="tell">"Broker" uses free email, off-brand domains, pressure to skip your normal checks.</p>
+          <p class="stop"><b>Stop:</b> confirm the broker through official records and a known number before you commit a truck.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GROUP B: MONEY SCAMS -->
+    <div class="deck-group">
+      <h3>💸 Money scams — getting paid for nothing</h3>
+      <p>These aim straight at the cash, not always the cargo.</p>
+      <div class="deck">
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="16" y="14" width="16" height="22" rx="2" fill="#F4B400" stroke="#16263B" stroke-width="2"/><rect x="19" y="18" width="10" height="7" fill="#fff" stroke="#16263B" stroke-width="1.5"/><path d="M32 22 h4 v8 a3 3 0 0 1 -6 0" fill="none" stroke="#16263B" stroke-width="2"/></svg>
+          <h4>Fuel-advance scam</h4>
+          <p class="what">A "carrier" books a load only to get the upfront fuel money, then disappears without ever hauling it.</p>
+          <p class="tell">New carrier pushes hard for a fuel advance before pickup.</p>
+          <p class="stop"><b>Stop:</b> limit or delay advances for unproven carriers; verify the truck is really moving first.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><circle cx="24" cy="24" r="10" fill="#fff" stroke="#16263B" stroke-width="2"/><text x="24" y="29" text-anchor="middle" font-size="12" font-weight="700" fill="#16263B" font-family="sans-serif">$</text><path d="M12 16 l6 -3 M36 16 l-6 -3" stroke="#C5392E" stroke-width="2.5" stroke-linecap="round"/><path d="M11 14 q3 -4 7 -2 M37 14 q-3 -4 -7 -2" fill="none" stroke="#C5392E" stroke-width="2" stroke-linecap="round"/></svg>
+          <h4>Non-payment (by a broker)</h4>
+          <p class="what">A weak or dishonest broker takes the shipper's money but never pays the carrier who hauled the load.</p>
+          <p class="tell">Excuses, delays, "check is coming," broker hard to reach after delivery.</p>
+          <p class="stop"><b>Stop:</b> check the broker's bond and payment reputation before hauling; keep written agreements.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="15" y="13" width="18" height="22" rx="2" fill="#fff" stroke="#16263B" stroke-width="2"/><path d="M19 22 l3 3 l6 -7" fill="none" stroke="#1C7A52" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 30 l7 7 M35 30 l-7 7" stroke="#C5392E" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <h4>Proof-of-delivery (POD) fraud</h4>
+          <p class="what">A fake "delivered" receipt is used to claim payment for goods that were stolen or never delivered.</p>
+          <p class="tell">POD arrives oddly fast, signatures look generic, receiver can't confirm.</p>
+          <p class="stop"><b>Stop:</b> confirm delivery directly with the receiver before releasing final payment.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><path d="M14 30 q4 -10 10 -10 q6 0 10 10" fill="none" stroke="#16263B" stroke-width="2"/><circle cx="24" cy="20" r="4" fill="#F4B400" stroke="#16263B" stroke-width="2"/><text x="24" y="36" text-anchor="middle" font-size="9" fill="#C5392E" font-weight="700" font-family="sans-serif">EXTRA $$</text></svg>
+          <h4>Surprise extra charges</h4>
+          <p class="what">A "mover" or carrier holds goods hostage and demands extra fees far above the agreed price.</p>
+          <p class="tell">Price jumps after pickup; threats to keep the cargo until you pay more.</p>
+          <p class="stop"><b>Stop:</b> lock prices in a signed agreement; refuse pay-or-we-keep-it demands and document them.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GROUP C: COMPUTER SCAMS -->
+    <div class="deck-group">
+      <h3>🔓 Computer scams — breaking into your systems</h3>
+      <p>Here the target is your <em>login</em>. With it, a crook becomes you.</p>
+      <div class="deck">
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="16" y="22" width="16" height="13" rx="2" fill="#F4B400" stroke="#16263B" stroke-width="2"/><path d="M19 22 v-4 a5 5 0 0 1 10 0" fill="none" stroke="#16263B" stroke-width="2"/><path d="M27 18 l8 -6" stroke="#C5392E" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <h4>Account takeover</h4>
+          <p class="what">A crook gets into a real email or load-board account and operates it as if they were the real owner.</p>
+          <p class="tell">Strange logins, changed contact info, messages that feel "off" from a known account.</p>
+          <p class="stop"><b>Stop:</b> turn on two-step login (MFA), never reuse passwords, report odd account behaviour fast.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><circle cx="20" cy="20" r="6" fill="none" stroke="#16263B" stroke-width="2.5"/><path d="M24 24 l8 8 l-3 3 l-8 -8" fill="#F4B400" stroke="#16263B" stroke-width="2" stroke-linejoin="round"/><path d="M14 32 l5 -5" stroke="#C5392E" stroke-width="2.5"/></svg>
+          <h4>Load-board credential hack</h4>
+          <p class="what">Stolen load-board logins let crooks post thousands of fake loads to lure and trap real carriers.</p>
+          <p class="tell">Too-good rates, mass postings, contact details that don't match the real company.</p>
+          <p class="stop"><b>Stop:</b> secure board logins, verify any load that looks unusually good, don't download offered "forms."</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><path d="M18 24 a4 4 0 0 1 0 -6 l4 -4 a5 5 0 0 1 7 7 l-2 2" fill="none" stroke="#16263B" stroke-width="2.5" stroke-linecap="round"/><path d="M30 24 a4 4 0 0 1 0 6 l-4 4 a5 5 0 0 1 -7 -7 l2 -2" fill="none" stroke="#C5392E" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <h4>Phishing &amp; bad links</h4>
+          <p class="what">Emails with links that steal your password — often disguised as a "dispute," "bad review," or "new form."</p>
+          <p class="tell">Pressure to click now, shortened/odd web links, login pages that look slightly wrong.</p>
+          <p class="stop"><b>Stop:</b> don't click links in surprise emails; type the website yourself or use a saved bookmark.</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="15" y="17" width="18" height="14" rx="3" fill="#fff" stroke="#16263B" stroke-width="2"/><circle cx="20" cy="24" r="2" fill="#C5392E"/><circle cx="28" cy="24" r="2" fill="#C5392E"/><rect x="22" y="13" width="4" height="4" fill="#16263B"/><path d="M11 22 v4 M37 22 v4" stroke="#16263B" stroke-width="2" stroke-linecap="round"/></svg>
+          <h4>Offshore / shared-access leak</h4>
+          <p class="what">Risk when too many people (or outside helpers) share one login into the broker's internal systems.</p>
+          <p class="tell">Shared passwords, no record of who did what, access that nobody removed.</p>
+          <p class="stop"><b>Stop:</b> give each person their own login, remove access when roles change, keep an activity trail.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GROUP D: PEOPLE SCAMS -->
+    <div class="deck-group">
+      <h3>🗣️ People scams — tricking the human</h3>
+      <p>The newest and oldest trick: skip the computers, fool the person.</p>
+      <div class="deck">
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><circle cx="24" cy="19" r="6" fill="#fff" stroke="#16263B" stroke-width="2"/><path d="M14 34 q10 -10 20 0" fill="none" stroke="#16263B" stroke-width="2"/><path d="M33 16 q5 1 6 5" fill="none" stroke="#C5392E" stroke-width="2" stroke-linecap="round"/><path d="M34 12 q8 2 9 9" fill="none" stroke="#C5392E" stroke-width="2" stroke-linecap="round" opacity=".5"/></svg>
+          <h4>Social engineering</h4>
+          <p class="what">A smooth talker uses urgency, authority, or friendliness to push you past your normal checks.</p>
+          <p class="tell">"Do it now," "keep this quiet," "your boss approved it" — pressure instead of proof.</p>
+          <p class="stop"><b>Stop:</b> pressure is the red flag. Pause, verify on a known channel, and it's always okay to say "let me confirm."</p>
+        </div>
+
+        <div class="scam">
+          <svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#FBEAE7"/><rect x="15" y="16" width="18" height="16" rx="4" fill="#16263B"/><circle cx="21" cy="23" r="2" fill="#F4B400"/><circle cx="27" cy="23" r="2" fill="#F4B400"/><line x1="20" y1="28" x2="28" y2="28" stroke="#F4B400" stroke-width="2"/><path d="M35 20 q4 4 0 8 M38 17 q7 7 0 14" fill="none" stroke="#C5392E" stroke-width="2" stroke-linecap="round"/></svg>
+          <h4>AI voice &amp; deepfakes <span style="font-size:.7em;color:#C5392E">(emerging)</span></h4>
+          <p class="what">Crooks now fake a familiar voice on the phone — or even a video — to "prove" they are your boss or a known carrier.</p>
+          <p class="tell">A trusted voice suddenly asking for money or a load change, slightly odd phrasing or audio.</p>
+          <p class="stop"><b>Stop:</b> a voice is not proof anymore. Confirm big requests with a code word or a second known channel.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape" aria-hidden="true"></div>
+
+<!-- ============ CH 4 — WEAK SEAMS ============ -->
+<section>
+  <div class="wrap">
+    <span class="chap-no">Chapter 4 · The weak seams</span>
+    <h2 class="title">Where the chain breaks</h2>
+    <p class="section-intro">Scammers don't attack everywhere. They look for the loose stitch. Here is the same chain from Chapter 1 — now with the weak points marked in red.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 880 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The freight chain with six red weak points marked: load board, onboarding, email and logins, money handling, new-carrier registration, and delivery and payment.">
+        <!-- simple chain line -->
+        <line x1="60" y1="120" x2="820" y2="120" stroke="#16263B" stroke-width="3"/>
+        <!-- nodes -->
+        <g font-family="'Source Sans 3'" font-size="12" font-weight="700" fill="#16263B" text-anchor="middle">
+          <circle cx="60" cy="120" r="10" fill="#16263B"/><text x="60" y="150">Shipper</text>
+          <circle cx="300" cy="120" r="14" fill="#F4B400" stroke="#16263B" stroke-width="2"/><text x="300" y="155">Broker (you)</text>
+          <circle cx="560" cy="120" r="10" fill="#16263B"/><text x="560" y="150">Carrier</text>
+          <circle cx="820" cy="120" r="10" fill="#16263B"/><text x="820" y="150">Receiver</text>
+        </g>
+        <!-- weak point pins -->
+        <g font-family="'Space Mono'" font-size="9.5" fill="#16263B" text-anchor="middle">
+          <!-- 1 load board -->
+          <circle cx="150" cy="70" r="13" fill="#C5392E"/><text x="150" y="74" fill="#fff" font-weight="700">1</text>
+          <text x="150" y="48">load boards</text>
+          <line x1="150" y1="83" x2="150" y2="112" stroke="#C5392E" stroke-width="2" stroke-dasharray="3 3"/>
+          <!-- 2 onboarding -->
+          <circle cx="300" cy="60" r="13" fill="#C5392E"/><text x="300" y="64" fill="#fff" font-weight="700">2</text>
+          <text x="300" y="38">vetting / onboarding</text>
+          <line x1="300" y1="73" x2="300" y2="106" stroke="#C5392E" stroke-width="2" stroke-dasharray="3 3"/>
+          <!-- 3 email/logins -->
+          <circle cx="430" cy="70" r="13" fill="#C5392E"/><text x="430" y="74" fill="#fff" font-weight="700">3</text>
+          <text x="430" y="48">email &amp; logins</text>
+          <line x1="430" y1="83" x2="370" y2="112" stroke="#C5392E" stroke-width="2" stroke-dasharray="3 3"/>
+          <!-- 4 money -->
+          <circle cx="300" cy="185" r="13" fill="#C5392E"/><text x="300" y="189" fill="#fff" font-weight="700">4</text>
+          <text x="300" y="210">money handling</text>
+          <line x1="300" y1="134" x2="300" y2="172" stroke="#C5392E" stroke-width="2" stroke-dasharray="3 3"/>
+          <!-- 5 registration -->
+          <circle cx="560" cy="70" r="13" fill="#C5392E"/><text x="560" y="74" fill="#fff" font-weight="700">5</text>
+          <text x="560" y="48">new-carrier sign-up</text>
+          <line x1="560" y1="83" x2="560" y2="110" stroke="#C5392E" stroke-width="2" stroke-dasharray="3 3"/>
+          <!-- 6 delivery/payment -->
+          <circle cx="700" cy="185" r="13" fill="#C5392E"/><text x="700" y="189" fill="#fff" font-weight="700">6</text>
+          <text x="700" y="210">delivery &amp; payment</text>
+          <line x1="700" y1="172" x2="690" y2="130" stroke="#C5392E" stroke-width="2" stroke-dasharray="3 3"/>
+        </g>
+      </svg>
+      <p class="figcap">The whole industry guards the front door — booking the load. So crooks now sneak in <b>downstream</b>: after the load is booked, at delivery and payment.</p>
+    </div>
+
+    <ol class="seams">
+      <li><span class="pin">1</span><div><h4>Load boards</h4><p>Where loads and trucks meet — and where fake loads and stolen logins flood in.</p></div></li>
+      <li><span class="pin">2</span><div><h4>Vetting &amp; onboarding</h4><p>The moment you decide to trust a new carrier. Weak checks here let masks through.</p></div></li>
+      <li><span class="pin">3</span><div><h4>Email &amp; logins</h4><p>One hacked inbox or shared password turns a crook into a trusted insider.</p></div></li>
+      <li><span class="pin">4</span><div><h4>Money handling</h4><p>Changing bank details or paying advances — the exact step BEC scams aim for.</p></div></li>
+      <li><span class="pin">5</span><div><h4>New-carrier sign-up</h4><p>Fake or mailbox-only addresses let phantom and chameleon carriers be born.</p></div></li>
+      <li><span class="pin">6</span><div><h4>Delivery &amp; payment</h4><p>Fake PODs and double-broker tricks bite right at the end, when guards are down.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ CH 5 — STATS ============ -->
+<section class="stats-panel">
+  <div class="tape" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="chap-no" style="color:var(--amber)">Chapter 5 · By the numbers</span>
+    <h2 class="title">This is real, and it is growing</h2>
+    <p class="section-intro">A few numbers to keep you alert. Each one is from a named source so you can trust it.</p>
+
+    <div class="statgrid">
+      <div class="stat"><div class="n">$725M</div><div class="l">Estimated cargo-theft losses in 2025 — up 60% from 2024.</div><div class="src">Verisk CargoNet</div></div>
+      <div class="stat"><div class="n">2,646</div><div class="l">Confirmed cargo thefts in 2025 — up 18% from 2,243 the year before.</div><div class="src">Verisk CargoNet</div></div>
+      <div class="stat"><div class="n">$273,990</div><div class="l">Average value of a single theft in 2025 — up 36%.</div><div class="src">Verisk CargoNet</div></div>
+      <div class="stat"><div class="n">$2.8B</div><div class="l">Lost to business-email-compromise scams in one year (≈$8.5B over three).</div><div class="src">FBI IC3</div></div>
+      <div class="stat"><div class="n">~⅓</div><div class="l">Share of cargo theft now done by "deception" — up from under 5% a few years ago.</div><div class="src">Industry trackers</div></div>
+      <div class="stat"><div class="n">~400%</div><div class="l">Reported rise in double-brokering complaints across the industry.</div><div class="src">Industry reporting</div></div>
+    </div>
+
+    <div class="barwrap">
+      <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar chart: estimated cargo theft losses rose from about 454 million dollars in 2024 to about 725 million dollars in 2025.">
+        <text x="0" y="22" fill="#cdd9e4" font-family="'Source Sans 3'" font-size="14" font-weight="700">Estimated cargo-theft losses</text>
+        <!-- axis -->
+        <line x1="120" y1="40" x2="120" y2="170" stroke="#3a4f63" stroke-width="2"/>
+        <line x1="120" y1="170" x2="700" y2="170" stroke="#3a4f63" stroke-width="2"/>
+        <!-- 2024 bar (~454M, scaled) -->
+        <rect x="200" y="108" width="150" height="62" rx="4" fill="#7f93a6"/>
+        <text x="275" y="190" text-anchor="middle" fill="#cdd9e4" font-family="'Space Mono'" font-size="13">2024</text>
+        <text x="275" y="100" text-anchor="middle" fill="#cdd9e4" font-family="'Space Mono'" font-size="13">≈ $454M</text>
+        <!-- 2025 bar (725M) -->
+        <rect x="430" y="58" width="150" height="112" rx="4" fill="#F4B400"/>
+        <text x="505" y="190" text-anchor="middle" fill="#fff" font-family="'Space Mono'" font-size="13" font-weight="700">2025</text>
+        <text x="505" y="50" text-anchor="middle" fill="#F4B400" font-family="'Space Mono'" font-size="14" font-weight="700">$725M</text>
+        <!-- +60% arrow -->
+        <path d="M360 100 q60 -30 110 -36" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#up)"/>
+        <text x="415" y="74" text-anchor="middle" fill="#fff" font-family="'Bricolage Grotesque'" font-size="16" font-weight="800">+60%</text>
+        <defs><marker id="up" markerWidth="9" markerHeight="9" refX="6" refY="4" orient="auto"><path d="M0 0 L9 4 L0 8 z" fill="#fff"/></marker></defs>
+      </svg>
+    </div>
+
+    <div class="datagap">
+      <b>An honest note about numbers.</b> Nobody has a perfect, government-stamped count of every fraud in the chain. The U.S. regulator (FMCSA) even told Congress it <strong>lacks the data</strong> to fully measure double brokering. The strongest figures come from private trackers (like Verisk CargoNet) and the FBI. So treat these as the best estimates we have — directionally true and clearly rising — not exact totals.
+    </div>
+  </div>
+  <div class="tape" aria-hidden="true"></div>
+</section>
+
+<!-- ============ CH 6 — YOUR SHIELD ============ -->
+<section>
+  <div class="wrap">
+    <span class="chap-no">Chapter 6 · Your daily shield</span>
+    <h2 class="title">The fixes, all in one place</h2>
+    <p class="section-intro">If a handbook could be one habit, it's this one: <strong>Stop · Check · Go.</strong> Use it on every load, payment, and odd request.</p>
+
+    <div class="routine">
+      <div class="rcard"><div class="word">STOP</div><p>When something is urgent, secret, or "too good," pause. Speed is the scammer's best friend — slow down on purpose.</p></div>
+      <div class="rcard"><div class="word">CHECK</div><p>Verify on a channel <em>you</em> chose: a phone number you looked up, official records, a second person. Never the contact in the suspicious message.</p></div>
+      <div class="rcard"><div class="word">GO</div><p>Only after it checks out, release the load or the money. Then write down what you did, in case you need a trail.</p></div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-weight:800;font-size:1.25rem;margin:30px 0 6px">The desk checklist</h3>
+    <p style="color:var(--ink-soft);margin:0 0 4px">Tick these for every new carrier, every payment change, every pickup.</p>
+    <ul class="check">
+      <li><b>Call back on a number you found yourself.</b> Use official records — never the number written in the email or load post.</li>
+      <li><b>Check the carrier's authority and history.</b> Be extra careful with brand-new authority, sudden contact/insurance changes, or a "carrier for sale."</li>
+      <li><b>Reject mailbox-only addresses.</b> A real, verifiable place of business matters; virtual or PO-box "offices" are a warning sign.</li>
+      <li><b>Read the email address letter by letter.</b> Watch for look-alikes (<span class="mono">.co</span> vs <span class="mono">.com</span>) and free email pretending to be a company.</li>
+      <li><b>Two people for any money or bank change.</b> Confirm new bank details by voice on a known number before paying a cent.</li>
+      <li><b>Never click links or download "forms" from surprise emails.</b> Type the website yourself or use a saved bookmark.</li>
+      <li><b>Photograph the pickup.</b> Driver, licence, truck and trailer numbers, plate, and the paperwork — and check they match your booking.</li>
+      <li><b>Forbid re-brokering in writing,</b> and confirm the delivering driver is the carrier you actually hired.</li>
+      <li><b>Confirm delivery with the receiver</b> before you release the final payment. Don't pay on a POD alone.</li>
+      <li><b>Lock your logins.</b> Turn on two-step (MFA), use unique passwords, your own account only, and remove access when people leave.</li>
+      <li><b>Treat a familiar voice with care.</b> Voices can be faked — confirm big asks with a code word or a second channel.</li>
+      <li><b>When in doubt, escalate.</b> It is always okay to say "let me confirm and call you back." A real partner will wait.</li>
+    </ul>
+
+    <div class="redflags">
+      <h3>🚩 Red-flag cheat sheet — pause if you see these</h3>
+      <ul>
+        <li>"Urgent — do it right now."</li>
+        <li>"Keep this between us."</li>
+        <li>Brand-new bank details by email.</li>
+        <li>Rate or price that's too good.</li>
+        <li>Brand-new authority, no history.</li>
+        <li>Office is just a mailbox.</li>
+        <li>Email address one letter off.</li>
+        <li>Free email for a "company."</li>
+        <li>Pushes you to skip your checks.</li>
+        <li>Driver/truck doesn't match booking.</li>
+        <li>Strange links or "dispute" forms.</li>
+        <li>Phone number that keeps changing.</li>
+      </ul>
+    </div>
+
+    <div class="case" style="margin-top:26px">
+      <div class="case-top"><span>CASE FILE · the regulator's own warning</span><span class="stamp">2026 advisory</span></div>
+      <div class="case-body">
+        <p>In a 2026 public warning, the FBI described crooks getting into broker and carrier systems, changing a real carrier's official contact and insurance info, and posting <strong>tens of thousands</strong> of fake loads to trap honest truckers and steal freight. Their advice matches this whole chapter: <strong>verify pickups a second way, don't trust a familiar name or email alone, use two-step checks, and document everything.</strong></p>
+        <p class="case-num" style="color:#16263B;font-weight:700">If the FBI's own fix is "verify on a second channel," that's your fix too. <span class="mono" style="color:#43566B;font-weight:400">— FBI IC3, 2026</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<section class="close">
+  <div class="tape" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2>Scammers win when we rush and are afraid to ask.</h2>
+    <p>You win when you slow down and check. You don't need to be a detective — you just need the habit. <span class="big-line">When in doubt, pause and verify.</span></p>
+  </div>
+  <div class="tape" aria-hidden="true"></div>
+</section>
+
+<!-- ============ SOURCES ============ -->
+<footer class="sources">
+  <div class="wrap">
+    <h3>Where these facts come from</h3>
+    <ul>
+      <li><strong>Verisk CargoNet</strong> — 2024 &amp; 2025 cargo-theft analyses (loss totals, incident counts, average theft value, the shift toward high-value "deception" theft).</li>
+      <li><strong>FBI / Internet Crime Complaint Center (IC3)</strong> — business-email-compromise loss figures and complaint counts; 2026 public service announcement on cyber-enabled strategic cargo theft and recommended defences.</li>
+      <li><strong>U.S. DOJ &amp; DOT Office of Inspector General</strong> — prosecuted double-brokering and carrier-identity-theft cases (e.g. the Tijuana-run scheme; restitution figures).</li>
+      <li><strong>FMCSA report to Congress</strong> — the statement that the agency lacks the data to fully quantify double brokering, and its limited civil-penalty authority.</li>
+      <li><strong>Industry reporting</strong> (TIA / trade press) — the roughly 400% rise in double-brokering complaints and broader fraud trends.</li>
+    </ul>
+    <p class="disclaimer">This handbook is general educational guidance for awareness and training — not legal, financial, or insurance advice. Verify carriers and partners through your company's official procedures, and report suspected fraud to the FBI (ic3.gov) and your fraud-prevention provider. Figures reflect the latest available reporting as of early 2026 and may be updated by their sources.</p>
+  </div>
+</footer>
+
+</body>
+</html>
