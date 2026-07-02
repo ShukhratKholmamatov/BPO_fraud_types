@@ -282,6 +282,25 @@
   .sources li{margin-bottom:8px}
   .disclaimer{margin-top:18px; font-size:.86em; font-style:italic}
 
+  /* ---------- fixed "download guide" button ---------- */
+  .dl-btn{
+    position:fixed; right:22px; top:22px; z-index:1000;
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--amber); color:var(--ink); text-decoration:none;
+    font-family:var(--font-mono); font-weight:700; font-size:.82rem;
+    letter-spacing:.08em; text-transform:uppercase;
+    padding:13px 18px; border-radius:999px;
+    border:2px solid var(--ink);
+    box-shadow:0 4px 0 var(--ink), 0 10px 24px rgba(22,38,59,.28);
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .dl-btn:hover{transform:translateY(-2px); background:#ffc61a; box-shadow:0 6px 0 var(--ink), 0 14px 28px rgba(22,38,59,.32)}
+  .dl-btn:active{transform:translateY(2px); box-shadow:0 2px 0 var(--ink)}
+  .dl-btn svg{width:18px; height:18px; flex:none}
+  @media (max-width:560px){
+    .dl-btn{right:14px; top:14px; padding:11px 15px; font-size:.74rem}
+  }
+
   /* reduce motion */
   @media (prefers-reduced-motion:reduce){
     *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
@@ -293,7 +312,7 @@
     .hero,.stats-panel,.close{background:#fff !important; color:#000 !important}
     .hero h1,.hero .sub,.stats-panel h2.title,.stats-panel .section-intro,.close h2,.close p{color:#000 !important}
     .stat{border-color:#bbb} .stat .n{color:#000} .stat .l,.stat .src{color:#333}
-    .tape{display:none}
+    .tape,.dl-btn{display:none}
     .big,.case,.scam,.rcard,.check li,.seams li,.figure svg{break-inside:avoid; box-shadow:none}
     section{padding:18px 0}
   }
@@ -301,6 +320,14 @@
 </style>
 </head>
 <body>
+
+<!-- ============ FIXED DOWNLOAD BUTTON ============ -->
+<a class="dl-btn" href="files/freight-fraud-handbook.pdf" download="freight-fraud-handbook.pdf" aria-label="Download the guide as a PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 3v12"/><path d="M6 11l6 6 6-6"/><path d="M4 21h16"/>
+  </svg>
+  Download Guide
+</a>
 
 <!-- ============ HERO ============ -->
 <header class="hero">
